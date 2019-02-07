@@ -1,0 +1,25 @@
+{
+	"name": "oneframework/container",
+	"description": "A Simple IoC Container, based off of the one included with Laravel; featuring a few customizations.",
+	"license": "MIT",
+	"minimum-stability": "dev",
+	"authors": [
+		{
+			"name": "Alexander Schmautz",
+			"email": "ceo@elixant.ca"
+		}
+	],
+	"require": {
+		"php": ">=7.1",
+		"illuminate/container": "~5.7"
+	},
+	"autoload": {
+		"psr-4": {
+			"OneFramework\\Container\\": "src/"
+		}
+	},
+	"config": {
+		"bin-dir": "bin/",
+		"optimize-autoloader": true
+	}
+}
