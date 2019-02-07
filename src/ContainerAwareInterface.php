@@ -40,7 +40,7 @@ interface ContainerAwareInterface
      *
      * @return Container
      */
-    public function getContainer(): Container;
+    public function getContainer();
     
     /**
      * Define or Attach a Container Instance to the defining Class.
@@ -49,5 +49,5 @@ interface ContainerAwareInterface
      *
      * @return void
      */
-    public function setContainer(Container $container): Container;
+    public function setContainer(Container $container);
 }
