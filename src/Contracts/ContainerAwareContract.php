@@ -1,5 +1,5 @@
 <?php
-namespace OneFramework\Container;
+namespace OneFramework\Container\Contracts;
 
 /**
  * OneFramework
@@ -20,19 +20,40 @@ namespace OneFramework\Container;
  * @copyright Copyright (c) 2018 Elixant Technoloy Ltd. All Rights Reserved.
  */
 
+use OneFramework\Container\Container;
+
 /**
- * Interface Definition: ContainerInterface
+ * Interface Definition: ContainerAwareContract
  *
- * Reference Interface for the Container Class.
+ * Interface defining the structure of the ContainerAwareTrait.
  *
  * @package     oneframework/container
- * @subpackage  ContainerInterface
+ * @subpackage  ContainerAwareContract
  * @license     MIT License
  * @link        https://www.elixant.ca
  * @author      Alexander Schmautz <ceo@elixant.ca>
  * @copyright   Copyright (c) 2018 Elixant Technoloy Ltd. All Rights Reserved.
  */
-interface ContainerInterface
+interface ContainerAwareContract
 {
-    //
+    const CONTAINER_AWARE = true;
+    
+    /**
+     * Return the attached Container Instance, and if one isn't already
+     * attached, then grab the main one from the global Namespace.
+     *
+     * @return Container
+     */
+    public function getContainer();
+    
+    /**
+     * Define or Attach a Container Instance to the defining Class.
+     * This is typically used in the event that there's need for a custom
+     * container instance.
+     *
+     * @param Container $container
+     *
+     * @return void
+     */
+    public function setContainer(Container $container);
 }

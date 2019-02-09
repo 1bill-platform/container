@@ -1,5 +1,5 @@
 <?php
-namespace OneFramework\Container;
+namespace OneFramework\Container\Traits;
 
 /**
  * OneFramework
@@ -19,6 +19,8 @@ namespace OneFramework\Container;
  * @author    Alexander Schmautz <ceo@elixant.ca>
  * @copyright Copyright (c) 2018 Elixant Technoloy Ltd. All Rights Reserved.
  */
+
+use OneFramework\Container\Container;
 
 /**
  * Trait Definition: ContainerAwareTrait
@@ -50,14 +52,16 @@ trait ContainerAwareTrait
      */
     public function getContainer()
     {
-        if ($this->container === null)
-            $this->setContainer(Container::getInstance());
+        if (! empty($this->container))
+            return $this->container;
         
-        return $this->container;
+        return Container::getInstance() ?? new Container();
     }
     
     /**
      * Define or Attach a Container Instance to the defining Class.
+     * This is typically used in the event that there's need for a custom
+     * container instance.
      *
      * @param Container $container
      *
@@ -66,5 +70,20 @@ trait ContainerAwareTrait
     public function setContainer(Container $container)
     {
         $this->container = $container;
+    }
+    
+    /**
+     * The Container Instance.
+     *
+     * @param null $abstract
+     *
+     * @return mixed|Container
+     */
+    protected function container($abstract = null)
+    {
+        if ($abstract !== null)
+            return $this->getContainer()->make($abstract);
+        
+        return $this->getContainer();
     }
 }

@@ -20,6 +20,9 @@
  */
 
 use Illuminate\Container\Container as BaseContainer;
+use OneFramework\Container\Contracts\ContainerContract;
+use Psr\Container\ContainerInterface;
+use OneFramework\ServiceLoader\Loader;
 
 /**
  * Class Definition: Container
@@ -34,7 +37,73 @@ use Illuminate\Container\Container as BaseContainer;
  * @author      Alexander Schmautz <ceo@elixant.ca>
  * @copyright   Copyright (c) 2018 Elixant Technoloy Ltd. All Rights Reserved.
  */
-class Container extends BaseContainer implements ContainerInterface
+class Container extends BaseContainer implements ContainerContract
 {
-    //
+    protected $abstractAliases = [
+        
+        'container'                 =>  [
+            Container::class,
+            BaseContainer::class,
+            ContainerInterface::class,
+
+            "Illuminate\\Contracts\\Container\\Container",
+            "Illuminate\\Contracts\\Foundation\\Application",
+            "Illuminate\\Foundation\\Application"
+        ]
+        
+    ];
+    
+    protected $aliases   =      [
+        
+        "Illuminate\\Contracts\\Container\\Container"               =>          'container',
+        "Illuminate\\Contracts\\Foundation\\Application"            =>          'container',
+        "Illuminate\\Foundation\\Application"                       =>          'container',
+        
+        Container::class                =>          'container',
+        BaseContainer::class            =>          'container',
+        ContainerInterface::class       =>          'container',
+        
+    ];
+    
+    /**
+     * Container constructor.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        if (class_exists($loader_class = static::SERVICE_LOADER))
+        {
+            $this->instance('loader', new $loader_class($this));
+        }
+        
+        $this->bindContainer();
+    }
+    
+    /**
+     * Bind the Container and any Modifications to
+     * the base container.
+     *
+     * @return void
+     */
+    protected function bindContainer()
+    {
+        parent::setInstance($this);
+        
+        $this->instance('container', $this);
+        $this->instance(BaseContainer::class, $this);
+    }
+    
+    /**
+     * @param string $abstract
+     * @param array  $parameters
+     *
+     * @return mixed
+     */
+    public function make($abstract, array $parameters = [])
+    {
+        $abstract = $this->getAlias($abstract);
+    
+        return parent::make($abstract, $parameters);
+    }
 }

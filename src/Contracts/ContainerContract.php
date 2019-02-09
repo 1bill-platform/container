@@ -1,5 +1,5 @@
 <?php
-namespace OneFramework\Container;
+namespace OneFramework\Container\Contracts;
 
 /**
  * OneFramework
@@ -21,33 +21,19 @@ namespace OneFramework\Container;
  */
 
 /**
- * Interface Definition: ContainerAwareInterface
+ * Interface Definition: ContainerContract
  *
- * Interface defining the structure of the ContainerAwareTrait.
+ * Reference Interface for the Container Class.
  *
  * @package     oneframework/container
- * @subpackage  ContainerAwareInterface
+ * @subpackage  ContainerContract
  * @license     MIT License
  * @link        https://www.elixant.ca
  * @author      Alexander Schmautz <ceo@elixant.ca>
  * @copyright   Copyright (c) 2018 Elixant Technoloy Ltd. All Rights Reserved.
  */
-interface ContainerAwareInterface
+interface ContainerContract
 {
-    /**
-     * Return the attached Container Instance, and if one isn't already
-     * attached, then grab the main one from the global Namespace.
-     *
-     * @return Container
-     */
-    public function getContainer();
-    
-    /**
-     * Define or Attach a Container Instance to the defining Class.
-     *
-     * @param Container $container
-     *
-     * @return void
-     */
-    public function setContainer(Container $container);
+    const VERSION                   =   "0.0.3";
+    const SERVICE_LOADER            =   "OneFramework\\ServiceLoader\\Loader";
 }
