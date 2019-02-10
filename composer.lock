@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e6d40371c5c94853b529dda4e8e2754c",
+    "content-hash": "02a5e3fd4063d186fc75b4998819e884",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -511,12 +511,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "9c3548bf55c71d70b569c4055c7c3bb91b897a18"
+                "reference": "1155caa45b23f89f140a14af08e934a71a60f7e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/9c3548bf55c71d70b569c4055c7c3bb91b897a18",
-                "reference": "9c3548bf55c71d70b569c4055c7c3bb91b897a18",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/1155caa45b23f89f140a14af08e934a71a60f7e8",
+                "reference": "1155caa45b23f89f140a14af08e934a71a60f7e8",
                 "shasum": ""
             },
             "require": {
@@ -576,7 +576,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-            "time": "2019-01-29T09:50:57+00:00"
+            "time": "2019-02-07T18:43:24+00:00"
         }
     ],
     "packages-dev": [],
