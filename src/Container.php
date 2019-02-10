@@ -20,9 +20,15 @@
  */
 
 use Illuminate\Container\Container as BaseContainer;
+use Illuminate\Contracts\Container\Container as BaseContainerContract;
+use Illuminate\Foundation\Application;
 use OneFramework\Container\Contracts\ContainerContract;
+use OneFramework\Events\Contracts\DispatcherContract;
+use OneFramework\Events\Dispatcher;
 use Psr\Container\ContainerInterface;
 use OneFramework\ServiceLoader\Loader;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class Definition: Container
@@ -39,30 +45,10 @@ use OneFramework\ServiceLoader\Loader;
  */
 class Container extends BaseContainer implements ContainerContract
 {
-    protected $abstractAliases = [
-        
-        'container'                 =>  [
-            Container::class,
-            BaseContainer::class,
-            ContainerInterface::class,
-
-            "Illuminate\\Contracts\\Container\\Container",
-            "Illuminate\\Contracts\\Foundation\\Application",
-            "Illuminate\\Foundation\\Application"
-        ]
-        
-    ];
-    
-    protected $aliases   =      [
-        
-        "Illuminate\\Contracts\\Container\\Container"               =>          'container',
-        "Illuminate\\Contracts\\Foundation\\Application"            =>          'container',
-        "Illuminate\\Foundation\\Application"                       =>          'container',
-        
-        Container::class                =>          'container',
-        BaseContainer::class            =>          'container',
-        ContainerInterface::class       =>          'container',
-        
+    protected static $aliasMap = [
+        'container'     =>      [Container::class, ContainerContract::class, ContainerInterface::class, BaseContainer::class, BaseContainerContract::class, Application::class, \Illuminate\Contracts\Foundation\Application::class],
+        'events'        =>      [Dispatcher::class, DispatcherContract::class, \Illuminate\Events\Dispatcher::class, \Illuminate\Contracts\Events\Dispatcher::class, EventDispatcher::class, EventDispatcherInterface::class],
+        'loader'        =>      [Loader::class]
     ];
     
     /**
@@ -78,6 +64,7 @@ class Container extends BaseContainer implements ContainerContract
         }
         
         $this->bindContainer();
+        $this->bindAliasesToContainer();
     }
     
     /**
@@ -86,7 +73,7 @@ class Container extends BaseContainer implements ContainerContract
      *
      * @return void
      */
-    protected function bindContainer()
+    private function bindContainer()
     {
         parent::setInstance($this);
         
@@ -99,11 +86,28 @@ class Container extends BaseContainer implements ContainerContract
      * @param array  $parameters
      *
      * @return mixed
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function make($abstract, array $parameters = [])
     {
         $abstract = $this->getAlias($abstract);
     
         return parent::make($abstract, $parameters);
+    }
+    
+    /**
+     * Bind the Aliases for OneFramework to the Container... No matter what, I guess.
+     *
+     * @return void
+     */
+    private function bindAliasesToContainer()
+    {
+        foreach (static::$aliasMap as $alias => $classes)
+        {
+            foreach ($classes as $class)
+            {
+                $this->alias($alias, $class);
+            }
+        }
     }
 }
